@@ -12,6 +12,7 @@ dependencies {
 	}
 }
 
+// enforce usage of ths SpringBoot properties launcher when application is started with java -jar boot.jar
 bootJar {
 	manifest {
 		attributes 'Main-Class' : 'org.springframework.boot.loader.PropertiesLauncher'
