@@ -81,7 +81,13 @@ as described by Andy Wilkinson in this [Stackoverflow post](https://stackoverflo
 >  
 > It is possible to use PropertiesLauncher in your IDE but it'll require a bit of extra configuration. You'll need to configure a run configuration that has spring-boot-loader and your application on the classpath that launches PropertiesLauncher. You can then use the loader.main system property to tell PropertiesLauncher the name of your application's main class.
   
-   
+A simpler way to make the external / provided library part of the IntelliJ launch config is to 
+add it with `compileOnly` to the project's build script. This will result in _not_ packaging the dependency
+but to include it in the launch config's classpath, as described in [this Gradle blog post](https://blog.gradle.org/introducing-compile-only-dependencies),
+specifically:
+
+> As part of our commitment to quality IDE support, compile-only dependencies continue to work with Gradle’s IDEA and Eclipse plugins. When used within IntelliJ IDEA, compile-only dependencies are mapped to IDEA’s own provided scope. Within Eclipse, compile-only dependencies are not exported via project dependencies.
+
 ## java / launch scripts
 `PropertiesLauncher` works with `java -jar application.jar` and launcher configuration parameters
 can be provided via JVM options, e.g. `java -Dloader.path=lib,/opt/lib -Dloader.home=. -jar application.jar` 
