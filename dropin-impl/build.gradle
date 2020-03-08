@@ -1,0 +1,5 @@
+sourceCompatibility = '11'
+
+dependencies {
+    implementation project(':dropin-def')
+}
