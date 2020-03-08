@@ -1,0 +1,10 @@
+rootProject.name = 'boot-dropin-example'
+
+include ':application'
+include ':dropin-def'
+
+// drop-in impl is NOT on the dependency tree of the main app
+// and would normally be a separate project. it is only added
+// in here for convenience reasons to provide the sample as 
+// a single IDE project.
+include ':dropin-impl'
