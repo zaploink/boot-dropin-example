@@ -87,6 +87,7 @@ Now, the "dropped" component should be found and loaded and the output will be d
 2020-03-09 01:38:08.138  INFO 9496 --- [           main] o.z.e.dropin.DropinExampleApplication    : No active profile set, falling back to default profiles: default
 2020-03-09 01:38:08.141  INFO 9496 --- [           main] o.z.example.dropin.DropinClassLoader     : Drop-in directory is: [...]\boot-dropin-example\application\..\dropin-impl\build\libs
 2020-03-09 01:38:08.247  INFO 9496 --- [           main] o.z.example.dropin.DropinClassLoader     : Adding the following external drop-in JAR files to class path: [[...]/boot-dropin-example/application/../dropin-impl/build/libs/dropin-impl.jar]
+2020-03-09 01:38:08.250  INFO 9496 --- [           main] o.z.example.dropin.QuotesProvider        : Drop-in 'Quotes' found with version: 1.0.0
 2020-03-09 01:38:08.253  INFO 9496 --- [           main] quote-of-the-day                         : ----------------------------------------------------------------------------------------------
 2020-03-09 01:38:08.253  INFO 9496 --- [           main] quote-of-the-day                         : From little acorns mighty oaks do grow. -- American proverb
 2020-03-09 01:38:08.253  INFO 9496 --- [           main] quote-of-the-day                         : ----------------------------------------------------------------------------------------------

@@ -14,7 +14,9 @@ public class QuotesProvider {
     @Bean
     Quotes quotes(DropinClassLoader classLoader) {
         try {
-            return (Quotes) Class.forName(QUOTES_IMPL_CLASS, true, classLoader).getDeclaredConstructor().newInstance();
+            Quotes quotes = (Quotes) Class.forName(QUOTES_IMPL_CLASS, true, classLoader).getDeclaredConstructor().newInstance();
+            LOG.info("Drop-in 'Quotes' found with version: "+quotes.getVersion());
+            return quotes;
         } catch (ClassNotFoundException e) {
             return quotesFallback();
         } catch (Exception e) {
