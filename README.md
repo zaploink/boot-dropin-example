@@ -113,3 +113,34 @@ or by setting the env variable `DROPIN_DIRECTORY`.
 A more advanced implementation of this would be based on a plugin-mechanism, that scans 
 for a series of components that implement a pre-defined abstract plugin interface,
 registers them with their version and exposes them to the application.
+
+# What about Spring-Boot's PropertiesLauncher?
+
+Spring-Boot packaging allows for selection of a different Launcher (the bootstrap component that reads the application
+binaries from the nested fat jar, see [official documentation of spring boot's nested JAR format](https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-executable-jar-format.html). 
+By default this is `JarLauncher`, but it is also possible to select the `PropertiesLauncher` instead, which allows to 
+define external "classpath" directories that contain JARs to be loaded at startup.
+
+All this requires is to build the fat jar with a different launcher with Gradle (defines the Launcher as `Main-Class` of
+the JAR, the application's main class will be registered as `Start-Class` and will be invoked by the launcher)
+
+```
+bootJar {
+	manifest {
+		attributes 'Main-Class' : 'org.springframework.boot.loader.PropertiesLauncher'
+	}
+}
+```
+
+After this, the application can be started with [launcher-specific JVM options](https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-executable-jar-format.html#executable-jar-property-launcher-features)
+to add external JARs:
+
+```
+java -Dloader.path=extlib -Dloader.home=`pwd` -jar boot.jar
+```
+
+This example project was first implemented using that exact mechanism (see early commits up to #37c2c3e789d9d30cb19cfe57ee8c7b6f331646e6).
+However, when looking at options of starting the application in the IDE or with gradle's `bootRun` command it turned
+out to be difficult to force the mechanism to work (because both IDE and `bootRun` start the application's main class 
+directly not via nested JAR, so the launcher is not used). **I therefore decided not to use the PropertiesLauncher
+and to implement a custom class loader instead.** 
