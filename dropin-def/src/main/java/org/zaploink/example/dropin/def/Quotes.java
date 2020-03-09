@@ -1,5 +1,5 @@
 package org.zaploink.example.dropin.def;
 
-public interface Quotes {
+public interface Quotes extends Versioned {
     String getQuoteOfTheDay();
 }

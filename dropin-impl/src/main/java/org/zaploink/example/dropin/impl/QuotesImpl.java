@@ -3,9 +3,10 @@ package org.zaploink.example.dropin.impl;
 import org.zaploink.example.dropin.def.Quotes;
 
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class QuotesImpl implements Quotes {
+    private static final String version = "1.0.0";
+
     private static final String[] quotes = {
       "An apple a day keeps the doctor away. -- Benjamin Franklin",
       "In the middle of every difficulty lies opportunity. -- Albert Einstein",
@@ -18,5 +19,10 @@ public class QuotesImpl implements Quotes {
     @Override
     public String getQuoteOfTheDay() {
         return quotes[random.nextInt(quotes.length)];
+    }
+
+    @Override
+    public String getVersion() {
+        return version;
     }
 }

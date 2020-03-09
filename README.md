@@ -43,58 +43,6 @@ The latter has been included as a sub-module for convenience reasons (so that th
 into the IDE as a single project), but note that normally the implementation
 would be a completely separate project with an own build.
 
-# Spring Boot PropertiesLauncher
-
-Enable with 
-
-```
-bootJar {
-	manifest {
-		attributes 'Main-Class' : 'org.springframework.boot.loader.PropertiesLauncher'
-	}
-}
-```
-
-Configuring the Spring-boot PropertiesLauncher to launch the application will load the 
-launcher first and then use the `boot.jar` and any configured external classpaths to execute
-the main class. 
-
-For more information see the [official documentation](https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-executable-jar-format.html#executable-jar-launching),
-the [PropertiesLauncher API documentation](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/loader/PropertiesLauncher.html)
-and the [PropertiesLauncher source code](https://github.com/spring-projects/spring-boot/blob/master/spring-boot-project/spring-boot-tools/spring-boot-loader/src/main/java/org/springframework/boot/loader/PropertiesLauncher.java).
-
-## gradle / bootRun
-
-This behavior does _not_ work when using the `bootRun` task, because this task does never invoke the
-configured launcher, but instead runs the application's main class directly in dev mode, with the gradle
-classpath as application classpath. Launcher config properties have no effect here.
-
-## IDE / IntelliJ
-
-Launching the application from an IDE such as IntellJ does not execute the `PropertiesLauncher`.
-The application main class is usually started directly, using the main module's classpath.
-
-To enforce usage of the `PropertiesLauncher`, a specialized launch configuration has to be set up,
-as described by Andy Wilkinson in this [Stackoverflow post](https://stackoverflow.com/a/37889382/2119598):
-
-> When you use PropertiesLauncher it sets up a class loader with the contents of the configured loader.path and then uses this class loader to load and call your application's main class. When you launch your application's main class directly in your IDE, PropertiesLauncher isn't involved so the loader.path system property has no effect.
->  
-> It is possible to use PropertiesLauncher in your IDE but it'll require a bit of extra configuration. You'll need to configure a run configuration that has spring-boot-loader and your application on the classpath that launches PropertiesLauncher. You can then use the loader.main system property to tell PropertiesLauncher the name of your application's main class.
-  
-A simpler way to make the external / provided library part of the IntelliJ launch config is to 
-add it with `compileOnly` to the project's build script. This will result in _not_ packaging the dependency
-but to include it in the launch config's classpath, as described in [this Gradle blog post](https://blog.gradle.org/introducing-compile-only-dependencies),
-specifically:
-
-> As part of our commitment to quality IDE support, compile-only dependencies continue to work with Gradle’s IDEA and Eclipse plugins. When used within IntelliJ IDEA, compile-only dependencies are mapped to IDEA’s own provided scope. Within Eclipse, compile-only dependencies are not exported via project dependencies.
-
-## java / launch scripts
-`PropertiesLauncher` works with `java -jar application.jar` and launcher configuration parameters
-can be provided via JVM options, e.g. `java -Dloader.path=lib,/opt/lib -Dloader.home=. -jar application.jar` 
-will add any external jars inside the `./lib` and `/opt/lib` directories to the classpath.
-
-Use `-Dloader.debug=true` to show debug output when launching the app.
-
 # Going further
 A more advanced implementation of this would be based on a plugin-mechanism, that scans 
 for a series of components that implement a pre-defined abstract plugin interface,

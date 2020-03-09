@@ -17,7 +17,9 @@ public class DropinExampleApplication {
 
     @Autowired
     void printQuoteOfTheDay(Quotes quotes) {
+        LOG.info("----------------------------------------------------------------------------------------------");
         LOG.info(quotes.getQuoteOfTheDay());
+        LOG.info("----------------------------------------------------------------------------------------------");
     }
 
     public static void main(String[] args) {
