@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 @Component
 public class QuotesProvider {
     private final static Logger LOG = Logger.getLogger(QuotesProvider.class.getName());
-    private final static String QUOTES_IMPL_CLASS = "org.zaploink.dropins.QuotesImpl";
+    private final static String QUOTES_IMPL_CLASS = "org.zaploink.example.dropin.impl.QuotesImpl";
 
     @Bean
     @ConditionalOnClass(name = QUOTES_IMPL_CLASS)
